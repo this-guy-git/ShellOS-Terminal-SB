@@ -1,0 +1,67 @@
+'SHELLOS TERMINAL FOR SMALLBASIC
+'CREATED BY THIS-GUY-GIT
+'SHELLOS FROM CRYPTICSOFT
+'SHELLOS IS A TRADEMARK OF CRYPTICSOFT CORP
+txt = 0
+'Loading
+TextWindow.WriteLine("Loading ShellOS")
+TextWindow.WriteLine("Welcome to ShellOS")
+TextWindow.WriteLine("Type `help` for Help")
+start:
+TextWindow.WriteLine("")
+TextWindow.Write("~/ShellOS/")
+input = TextWindow.Read()
+'Help Statement
+If input = "help" Then
+  help:
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("neofetch - displays OS info")
+  TextWindow.WriteLine("calc - basic calculator")
+'Calculator Script
+ElseIf input = "calc" Then
+  calc:
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("First Number?")
+  TextWindow.Write("~/ShellOS/calc/ ")
+  n = TextWindow.Read()
+  TextWindow.WriteLine("Operation? (+*/-)")
+  TextWindow.Write("~/ShellOS/calc/ ")
+  o = TextWindow.Read()
+  TextWindow.WriteLine("Second Number?")
+  TextWindow.Write("~/ShellOS/calc/ ")
+  nt = TextWindow.Read()
+  If o = "+" Then
+    TextWindow.WriteLine("")
+    TextWindow.Write(n + " + ")
+    TextWindow.Write(nt + " = ")
+    TextWindow.Write(n + nt)
+  ElseIf o = "-" Then
+    TextWindow.WriteLine("")
+    TextWindow.Write(n + " - ")
+    TextWindow.Write(nt + " = ")
+    TextWindow.Write(n - nt)
+  ElseIf o = "*" Then
+    TextWindow.WriteLine("")
+    TextWindow.Write(n + " * ")
+    TextWindow.Write(nt + " = ")
+    TextWindow.Write(n * nt)
+  ElseIf o = "/" Then
+    TextWindow.WriteLine("")
+    TextWindow.Write(n + " / ")
+    TextWindow.Write(nt + " = ")
+    TextWindow.Write(n / nt)
+  Else
+    TextWindow.WriteLine("Please use a valid operation.")
+    Goto calc
+  EndIf
+'Neofetch
+ElseIf input = "neofetch" Then
+  TextWindow.WriteLine("ShellOS SmallBasic v1.0")
+  TextWindow.WriteLine("Download ShellOS full release on Github")
+Else
+  TextWindow.WriteLine("")
+  TextWindow.Write("Unknown Command `" + input)
+  TextWindow.Write("`")
+  TextWindow.WriteLine("")
+EndIf
+Goto start
