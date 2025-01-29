@@ -1,0 +1,37 @@
+'SHELLOS TERMINAL FOR SMALLBASIC DEBUG v2.1
+'CREATED BY THIS-GUY-GIT
+'SHELLOS FROM CRYPTICSOFT
+'SHELLOS IS A TRADEMARK OF CRYPTICSOFT CORP
+version = 2.1
+TextWindow.Title = "ShellOS SB v" + version + " Debug"
+accstat = 0
+dir = Program.Directory
+userinfo = dir + "\Program\userinfo.txt"
+usern = File.ReadLine(userinfo,1)
+passw = File.ReadLine(userinfo,2)
+verify = "1=" + dir + "debug.exe;2=" + dir + "main.exe;3=" + dir + "SmallBasicLibrary.dll;"
+finstb = verify
+TextWindow.WriteLine(dir)
+TextWindow.WriteLine(File.GetTemporaryFilePath())
+If File.ReadContents(userinfo) = "" Then
+  TextWindow.WriteLine("No active account")
+Else
+  TextWindow.WriteLine("`" + usern + "`")
+  TextWindow.WriteLine("`" + passw + "`")
+EndIf
+If File.ReadContents(dir + "\Documents\sbdoc.txt") = "" Then
+  TextWindow.WriteLine("No active doc")
+Else
+  TextWindow.WriteLine("`" + File.ReadContents(dir + "\Documents\sbdoc.txt") + "`")
+EndIf
+'If File.GetFiles(dir) = finstb Then
+'  TextWindow.WriteLine("ShellOS SB TERM COMPLETE INSTALL")
+'Else
+'  TextWindow.WriteLine("ShellOS SB TERM INCOMPLETE INSTALL")
+'  GraphicsWindow.Hide()
+'  GraphicsWindow.ShowMessage("A fatal error occured! Your ShellOS install is incomplete. Would you like to reinstall ShellOS?","Error")
+'  'TextWindow.WriteLine("Download at https://github.com/this-guy-git/ShellOS-Terminal-SB/releases/")
+'  TextWindow.Read()
+'  GraphicsWindow.Hide()
+'EndIf
+TextWindow.WriteLine("v" + version + "term" + " build1122025sb")
