@@ -1,0 +1,41 @@
+'SHELLOS TERMINAL FOR SMALLBASIC DEBUG v2.1
+'CREATED BY THIS-GUY-GIT
+'SHELLOS FROM CRYPTICSOFT
+'SHELLOS IS A TRADEMARK OF CRYPTICSOFT CORP
+version = 2.1
+TextWindow.Title = "ShellOS SB v" + version + " Debug"
+accstat = 0
+dir = Program.Directory
+userinfo = dir + "\Program\userinfo.txt"
+usern = File.ReadLine(userinfo,1)
+passw = File.ReadLine(userinfo,2)
+verify = "1=" + dir + "debug.exe;2=" + dir + "main.exe;3=" + dir + "SmallBasicLibrary.dll;"
+finstb = verify
+TextWindow.WriteLine(dir)
+TextWindow.WriteLine(File.GetTemporaryFilePath())
+If File.ReadContents(userinfo) = "" Then
+  TextWindow.WriteLine("No active account")
+Else
+  TextWindow.WriteLine("`" + usern + "`")
+  TextWindow.WriteLine("`" + passw + "`")
+EndIf
+If File.ReadContents(dir + "\Documents\sbdoc.txt") = "" Then
+  TextWindow.WriteLine("No active doc")
+Else
+  TextWindow.WriteLine("`" + File.ReadContents(dir + "\Documents\sbdoc.txt") + "`")
+EndIf
+finstb = File.GetFiles(dir)
+finstb2 = File.GetDirectories(dir)
+finstb3 = File.GetFiles(dir + "\Bin")
+finstb4 = File.GetFiles(dir + "\Program")
+TextWindow.BackgroundColor = File.ReadLine(dir + "\Program\colour.txt",2)
+TextWindow.ForegroundColor = File.ReadLine(dir + "\Program\colour.txt",1)
+TextWindow.Clear()
+If Text.IsSubText(finstb,"4") Or Text.IsSubText(finstb2,"4") And Text.IsSubText(finstb3,"6") And Text.IsSubText(finstb4,"3") Then
+  TextWindow.WriteLine("ShellOS SB TERM INCOMPLETE INSTALL")
+  GraphicsWindow.Hide()
+  GraphicsWindow.ShowMessage("The ShellOS SB Install is incomplete, reinstall from https://github.com/this-guy-git/","Error")
+  Program.End()
+  GraphicsWindow.Hide()
+EndIf
+TextWindow.WriteLine("v" + version + "term" + " build1312025p2sb")

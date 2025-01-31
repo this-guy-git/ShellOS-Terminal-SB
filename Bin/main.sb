@@ -1,0 +1,313 @@
+'SHELLOS TERMINAL FOR SMALLBASIC v2.1 PATCH 2
+'CREATED BY THIS-GUY-GIT
+'SHELLOS FROM CRYPTICSOFT
+'SHELLOS IS A TRADEMARK OF CRYPTICSOFT CORP
+version = "2.1 PATCH 2"
+TextWindow.Title = "ShellOS SB v" + version
+accstat = 0
+dir = Program.Directory
+userinfo = dir + "\Program\userinfo.txt"
+usern = File.ReadLine(userinfo,1)
+passw = File.ReadLine(userinfo,2)
+loads = 0
+finstb = File.GetFiles(dir)
+finstb2 = File.GetDirectories(dir)
+finstb3 = File.GetFiles(dir + "\Bin")
+finstb4 = File.GetFiles(dir + "\Program")
+TextWindow.BackgroundColor = File.ReadLine(dir + "\Program\colour.txt",2)
+TextWindow.ForegroundColor = File.ReadLine(dir + "\Program\colour.txt",1)
+TextWindow.Clear()
+If Text.IsSubText(finstb,"4") Or Text.IsSubText(finstb2,"4") And Text.IsSubText(finstb3,"6") And Text.IsSubText(finstb4,"3") Then
+  TextWindow.WriteLine("ShellOS SB TERM INCOMPLETE INSTALL")
+  GraphicsWindow.Hide()
+  GraphicsWindow.ShowMessage("A fatal error occured! Launch `debug.exe` for more information.","Error")
+  Program.End()
+  GraphicsWindow.Hide()
+EndIf
+'Loading
+While loads < 3
+  TextWindow.Clear()
+  TextWindow.WriteLine(dir)
+  TextWindow.WriteLine("Loading ShellOS v" + version)
+  TextWindow.Write(".")
+  Program.Delay(500)
+  TextWindow.Write(".")
+  Program.Delay(500)
+  TextWindow.Write(".")
+  Program.Delay(500)
+  TextWindow.Write(".")
+  Program.Delay(500)
+  loads = loads + 1
+EndWhile
+If File.ReadContents(dir +"\Program\userinfo.txt") = "" Then
+  cacc:
+  TextWindow.Clear()
+  TextWindow.WriteLine("You do not have a current account. Would you like to create one? (y/n)")
+  cacc = TextWindow.Read()
+  If cacc = "y" Then
+    TextWindow.WriteLine("Enter a Username")
+    user = TextWindow.Read()
+    TextWindow.WriteLine("Enter a Password")
+    pass = TextWindow.Read()
+    File.WriteLine(userinfo,1,user)
+    File.WriteLine(userinfo,2,pass)
+    usern = File.ReadLine(userinfo,1)
+    passw = File.ReadLine(userinfo,2)
+   accstat = 0
+    Goto acc
+  ElseIf cacc = "n" Then
+    accstat = "guest"
+    usern = "guest"
+    Goto acc
+  Else
+    TextWindow.WriteLine("Please answer `y` or `n`")
+    Goto cacc
+  EndIf
+Else
+  tryagainu:
+  TextWindow.Clear()
+  TextWindow.Write("Username?: ")
+  usernput = TextWindow.Read()
+  If usernput = File.ReadLine(userinfo,1) Then
+    tryagainp:
+    TextWindow.WriteLine("")
+    TextWindow.Write("Password?: ")
+    passnput = TextWindow.Read()
+    If passnput = File.ReadLine(userinfo,2) Then
+      Goto acc
+    Else
+      Goto tryagainp
+    EndIf
+  Else
+    Goto tryagainu
+  EndIf
+EndIf 
+acc:
+TextWindow.Clear()
+TextWindow.WriteLine("Welcome to ShellOS")
+start:
+TextWindow.WriteLine("Type `help` for Help")
+startnh:
+TextWindow.WriteLine("")
+TextWindow.Write("~/" + usern + "/ShellOS/")
+input = TextWindow.Read()
+'Help Statement
+If input = "help" Then
+  help:
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("neofetch -   displays OS info")
+  TextWindow.WriteLine("getFiles -   advanced file reciever")
+  TextWindow.WriteLine("time     -   displays current time")
+  TextWindow.WriteLine("note     -   basic notepad")
+  TextWindow.WriteLine("calc     -   basic calculator")
+  TextWindow.WriteLine("settings -   settings")
+  TextWindow.WriteLine("exit     -   close terminal")
+'Calculator Script
+ElseIf input = "calc" Then
+  calc:
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("First Number?")
+  TextWindow.Write("~/" + usern + "/ShellOS/calc/ ")
+  n = TextWindow.Read()
+  TextWindow.WriteLine("Operation? (+*/-)")
+  TextWindow.Write("~/" + usern + "/ShellOS/calc/ ")
+  o = TextWindow.Read()
+  TextWindow.WriteLine("Second Number?")
+  TextWindow.Write("~/" + usern + "/ShellOS/calc/ ")
+  nt = TextWindow.Read()
+  If o = "+" Then
+    TextWindow.WriteLine("")
+    TextWindow.Write(n + " + ")
+    TextWindow.Write(nt + " = ")
+    TextWindow.Write(n + nt)
+  ElseIf o = "-" Then
+    TextWindow.WriteLine("")
+    TextWindow.Write(n + " - ")
+    TextWindow.Write(nt + " = ")
+    TextWindow.Write(n - nt)
+  ElseIf o = "*" Then
+    TextWindow.WriteLine("")
+    TextWindow.Write(n + " * ")
+    TextWindow.Write(nt + " = ")
+    TextWindow.Write(n * nt)
+  ElseIf o = "/" Then
+    TextWindow.WriteLine("")
+    TextWindow.Write(n + " / ")
+    TextWindow.Write(nt + " = ")
+    TextWindow.Write(n / nt)
+  Else
+    TextWindow.WriteLine("Please use a valid operation.")
+    Goto calc
+  EndIf
+'Neofetch
+ElseIf input = "neofetch" Then
+  TextWindow.WriteLine("ShellOS SmallBasic v" + version)
+  TextWindow.WriteLine("build1312025p2sb")
+  TextWindow.WriteLine("Current Directory: " + dir)
+  
+  TextWindow.WriteLine("Download ShellOS full release on Github")
+'Exit
+ElseIf input = "exit" Then
+  Program.End()
+'Notes
+ElseIf input = "note" Then
+  note = File.ReadContents(dir + "\Documents\sbdoc.txt")
+  If note = "" Then
+    notes:
+    If accstat = "guest" Then
+      TextWindow.WriteLine("You are using a guest account. This will not save")
+    EndIf
+    TextWindow.Write("~/" + usern + "/ShellOS/notes/ ")
+    note = TextWindow.Read()
+    If accstat <> "guest" Then
+      File.WriteContents(dir + "\Documents\sbdoc.txt",note)
+      TextWindow.WriteLine(File.LastError)
+    EndIf
+  Else
+    onote:
+    TextWindow.WriteLine("There is already a note active. Do you wish to overwrite? (y/n)")
+    onote = TextWindow.Read()
+    If onote = "y" Then
+      Goto notes
+    ElseIf onote = "n" Then
+      TextWindow.WriteLine(note)
+    Else
+      TextWindow.WriteLine("Please use `y` or `n`")
+      Goto onote
+    EndIf
+  EndIf
+  Goto startnh
+ElseIf input = "settings" Then
+  TextWindow.Clear()
+  If accstat = "guest" Then
+    TextWindow.WriteLine("You can only change settings with an account.")
+    TextWindow.Read()
+    Goto acc
+  Else
+    set:
+    TextWindow.Clear()
+    sinput = 0
+    TextWindow.WriteLine("1. Change Colours")
+    TextWindow.WriteLine("2. Change Username")
+    TextWindow.WriteLine("3. Change Password")
+    TextWindow.WriteLine("4. Delete Account")
+    TextWindow.WriteLine("5. Back")
+    sinput = TextWindow.Read()
+    If sinput = "1" Then
+      colour:
+      TextWindow.WriteLine("1. Text Colour")
+      TextWindow.WriteLine("2. Background Colour")
+      TextWindow.WriteLine("3. Back")
+      sinput = TextWindow.Read()
+      If sinput = "1" Then
+        TextWindow.WriteLine("White")
+        TextWindow.WriteLine("Gray")
+        TextWindow.WriteLine("Black")
+        TextWindow.WriteLine("Red")
+        TextWindow.WriteLine("Yellow")
+        TextWindow.WriteLine("Green")
+        TextWindow.WriteLine("Blue")
+        TextWindow.WriteLine("Magenta")
+        colour = TextWindow.Read()
+        ncolour = Text.ConvertToLowerCase(colour)
+        TextWindow.ForegroundColor = ncolour
+        TextWindow.Clear()
+        File.WriteLine(dir + "\Program\colour.txt",1,ncolour)
+        Goto set
+      ElseIf sinput = "2" Then
+        bcol:
+        TextWindow.WriteLine("White")
+        TextWindow.WriteLine("Gray")
+        TextWindow.WriteLine("Black")
+        TextWindow.WriteLine("Red")
+        TextWindow.WriteLine("Yellow")
+        TextWindow.WriteLine("Green")
+        TextWindow.WriteLine("Blue")
+        TextWindow.WriteLine("Magenta")
+        colour = TextWindow.Read()
+        ncolour = Text.ConvertToLowerCase(colour)
+        TextWindow.BackgroundColor = ncolour
+        TextWindow.Clear()
+        File.WriteLine(dir + "\Program\colour.txt",2,ncolour)
+        Goto set
+      ElseIf sinput = "3" Then
+        Goto set
+      Else
+        TextWindow.WriteLine("Please use an available option")
+        Goto colour
+      EndIf
+    ElseIf sinput = "2" Then
+      TextWindow.WriteLine("")
+      TextWindow.Write("Username: ")
+      usern = TextWindow.Read()
+      File.WriteLine(userinfo,1,usern)
+      Goto set
+    ElseIf sinput = "3" Then
+      TextWindow.WriteLine("")
+      TextWindow.Write("Password: ")
+      passw = TextWindow.Read()
+      File.WriteLine(userinfo,2,usern)
+      Goto set
+    ElseIf sinput = "4" Then
+      dele:
+      TextWindow.WriteLine("Are you sure you want to delete all information associated to this account?")
+      del = TextWindow.Read()
+      If del = "y" Then
+        File.WriteContents(userinfo,"")
+        File.WriteContents(dir + "\Documents\sbdoc.txt","")
+        File.WriteLine(dir + "\Program\colour.txt",1,"white")
+        File.WriteLine(dir + "\Program\colour.txt",2,"black")
+        Program.End()
+      ElseIf del = "n" Then
+        Goto set
+      Else
+        TextWindow.WriteLine("Please use `y` or `n`")
+        Goto dele
+      EndIf
+    ElseIf sinput = "5" Then
+      Goto acc
+    Else
+      TextWindow.WriteLine("Please use an available option")
+      Goto set
+    EndIf
+EndIf
+ElseIf input = "time" Then
+  TextWindow.WriteLine(Clock.Date)
+  TextWindow.WriteLine(Clock.Time)
+ElseIf input = "" Then
+  Goto startnh
+ElseIf input = "getFiles" Then
+  TextWindow.Clear()
+  files:
+  TextWindow.WriteLine("Get Files from what Directory?")
+  TextWindow.WriteLine("Use `cd` to change DIR and `ls` to LIST DIR")
+  TextWindow.WriteLine("Use `exit` to return")
+  getfinput = TextWindow.Read()
+  If getfinput = "ls" Then
+    If cd = "" Then
+      TextWindow.WriteLine(File.GetDirectories(dir))
+    Else
+      TextWindow.WriteLine(File.GetDirectories(cd))
+    EndIf
+  ElseIf getfinput = "cd" Then
+    TextWindow.WriteLine("Change to which directory?")
+    cd = TextWindow.Read()
+  ElseIf getfinput = "exit" Then
+    Goto acc
+  Else
+    If cd = "" Then
+      TextWindow.WriteLine(File.GetFiles(dir))
+    Else
+      TextWindow.WriteLine(File.GetFiles(cd))
+    EndIf
+  EndIf
+  Goto files
+Else
+  TextWindow.WriteLine("")
+  TextWindow.Write("Unknown Command `" + input)
+  TextWindow.Write("`")
+  TextWindow.WriteLine("")
+  Goto start
+    
+EndIf
+Goto startnh
